@@ -1,0 +1,100 @@
+create table students(
+    id serial primary key ,
+    first_name varchar  ,
+    last_name varchar ,
+    age int,
+    email varchar,
+    course varchar,
+    exam_point int
+);
+
+insert into students(first_name, last_name, age, email, course, exam_point)
+values ('Aigerim','Sulaimanova',18,'aigerim@gmail.com','Java',90),
+       ('Aisuluu','Kubanychbekova',19,'aisuluu@gmail.com','JS',85),
+       ('Baktulan','Nazirbek u',21,'baktulan@gmail.com','Java',100),
+       ('Janbolot','Kurmushuev',24,'janbolot@gmail.com','JS',75),
+       ('Joomart','Ishenbaev',22,'joomart@gmail.com','Java',70),
+       ('Kasiet','Kubandykova',25,'kasiet@gmail.com','JS',80),
+       ('Kurmanbek','Abdullaev',27,'kurmanbek@gmail.com','Java',95),
+       ('Omurbek','Shayirbek u',24,'omurbek@gmail.com','JS',70),
+       ('Omurzak','Soorbaev',36,'omurzak@gmail.com','JS',75),
+       ('Beksultan','Isaev',17,'beksultan@gmail.com','Java',80);
+
+insert into students(first_name, last_name, age, email, course, exam_point)
+values ('Ulugbek','null',18,'ulugbek@gmail.com','null',90);
+
+
+
+--* - all (vse) берилген баардык маалыматтарды чыгарып берет
+select * from students;
+--Биз тандаган колумн чыгат
+select first_name,last_name, course from students;
+--as- как
+select first_name as name from students;
+--concat- эки созду кошот же эки таблицаны бириктирип чыгарат
+select concat(first_name,' ',last_name)as full_name from students;
+--order by- сортировка кылат
+select first_name, last_name from students order by first_name desc;
+--distinc- уникалный маанилерди чыгарат
+select distinct course from students;
+select distinct age from students;
+--керектуу маанини чыгарып алсак болот. мисалы жсти
+select first_name,last_name,course from students where course='JS';
+--where- менен жана and менен керектуу маалыматты болуп алсак болот
+select first_name,last_name,course,exam_point from students where course='Java' and exam_point>80;
+--or- эки шарттын бироосу туура болсо чыгарып бере берет
+select first_name,last_name,course,age from students where course='JS' or age>19;
+--limit- бул чектеп канча керек экенин белгилеп чыгарып берет
+select first_name,last_name from students limit 5;
+--offset- бул кайсы сан берилсе ошондон кийинки маалыматтар чыгат
+select first_name,last_name from students offset 3;
+--fethc- буга канча сан берсек ошончону чыгарып берет
+select first_name,last_name from students fetch first 5 rows only ;
+select first_name,last_name from students fetch first 1 rows only ;
+--in- бул берилген созго тиешелуу маалыматтарды чыгарып берет
+select first_name,last_name,course from students where course in ('Java');
+--not un- бул берилген создон башка маалыматтарды чыгарып берет
+select first_name,last_name,course from students  where course not in ('Java');
+--between- берилген нерседен берилген нерсеге чейин маалыматтарды чыгарып берет
+select first_name,last_name,age from students where age between 20 and 25;
+--like- бул кандай тамга берсек ошодой тамгадагы маалыматтарды чыгарып берет
+select first_name,last_name from students where first_name like 'A%';
+--like %n- кылсак аягы н менен буткон создорду чыгарып берет, башы маанилуу эмес
+select first_name,last_name from students where first_name like '%n';
+--like '___'- бул спейтер канчоо болсо ошончо болгон аттарды чыгарып берет
+select first_name,last_name from students where first_name like '______';
+--ilike- бул кандай кичине же чон тамга жазсак да ошого тиешелуу чон кичине айырмасы жок создорду чыгарат
+select first_name,last_name from students where first_name ilike 'a%';
+--group by- бул баарын бир группа кылып берет
+select course from students group by course;
+--count- группаларда канчадан студент бар экенин эсептеп берет
+select count(id),course from students group by course ;
+--having- where сыяктуу эле иштейт
+select count(id), course from students group by course having count(course)>6;
+--max- бул эн максималдуусун чыгарып берет
+select max(age) from students;
+--min- бул эн кичинесин чыгарып берет
+select min(age) from students;
+--sum- бул баарын кошуп берет
+select sum(age) from students;
+select sum(exam_point) from students;
+--avg- бул орточосун чыгарып берет
+select avg(age) from students;
+select avg(exam_point) from students;
+--round- бул 23.3 болсо 23 кылып тегеректеп берет
+select round(avg(age)) from students;
+-- coalesce- null- болсо ошол жерге жазып койсо болот
+select first_name, coalesce(course,'Kiyin tandait') from students;
+select first_name, coalesce(last_name,'familia jok') from students;
+--now- бул убакыттарды чыгарып берет
+select now();
+select now()::date;
+select now()::time;
+select extract(year from now());
+select extract(month from now());
+select extract(dow from now());
+select extract(century from now());
+--delete- берилген маалыматты очуруп берет
+delete from students where id in(1,2,3);
+--update- бул жаны маалыматка озгортуп коет
+update students set first_name='Aigerim' where first_name='Ulugbek'
